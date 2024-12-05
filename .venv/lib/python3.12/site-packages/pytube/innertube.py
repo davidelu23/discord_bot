@@ -45,8 +45,8 @@ _default_clients = {
         'context': {
             'client': {
                 'clientName': 'ANDROID',
-                'clientVersion': '17.31.35',
-                'androidSdkVersion': 30
+                'clientVersion': '19.08.35',
+                'androidSdkVersion': 32
             }
         },
         'header': {

@@ -121,13 +121,20 @@ async def play(ctx, music_file: str):
 
 		# Select the 1st video
 		if search_result['items']:
+			# Show preview on discord
 			video = search_result['items'][0]
 			video_id = video['id']['videoId']
 			video_title = video['snippet']['title']
 			video_url = f"https://www.youtube.com/watch?v={video_id}"
 			await ctx.send(f'Now playing {video_title}\n{video_url}')
 
+			# Download the video
+			yt = YouTube(video_url)
+			audio_stream = yt.streams.filter(only_audio=True).first()
+			file_path = audio_stream.download()
 
+			# Play music
+			ctx.voice_client.play(discord.FFmpegPCMAudio(file_path))
 		else:
 			await ctx.send('No video found')
 
