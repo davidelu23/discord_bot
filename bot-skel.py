@@ -102,7 +102,6 @@ async def roll(ctx, max_val: int):
 async def play(ctx, music_file: str):
 	api_key = os.environ['YT_API_KEY']
 	voice = ctx.author.voice
-	await ctx.send(music_file)
 	# check if user is connected to a vc
 	if voice is None:
 		await ctx.send('ERROR: You are not connected to a voice channel')
@@ -129,12 +128,10 @@ async def play(ctx, music_file: str):
 			video_title = video['snippet']['title']
 			video_url = f"https://www.youtube.com/watch?v={video_id}"
 			await ctx.send(f'Now playing\n{video_url}')
-
 			# Download the video
 			yt = YouTube(video_url)
 			audio_stream = yt.streams.filter(only_audio=True).first()
 			file_path = audio_stream.download()
-
 			# Play music
 			ctx.voice_client.play(discord.FFmpegPCMAudio(file_path))
 		else:
@@ -146,16 +143,6 @@ async def play(ctx, music_file: str):
 # stop music
 @bot.command(brief='Stops the bot from playing music')
 async def stop(ctx):
-	voice = ctx.voice_client
-	# check if the bot is connected to any vc
-	if voice is None:
-		await ctx.send('ERROR: I am not connected to any voice channel')
-		return
-	voice.stop()
-
-# skip current
-@bot.command(brief='Stops the bot from playing music')
-async def skip(ctx):
 	voice = ctx.voice_client
 	# check if the bot is connected to any vc
 	if voice is None:
